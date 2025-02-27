@@ -75,13 +75,33 @@ def GNAR_preds(best_models, adj_mats, p, s, train, test, model_type, h, n_best):
 
 def compute_avg_preds(inf_preds_df, n_best):
     """
-    Compute the average inflation rate forecasts from the n_best best performing networks.
+    Compute the average inflation rate forecasts from the n_best best performing networks. (inf_preds_df is the output of forecast_networks)
     """
     inf_preds_avg = inf_preds_df[1]
     for i in range(2, n_best + 1):
         inf_preds_avg += inf_preds_df[i]
     inf_preds_avg = inf_preds_avg / n_best
     return inf_preds_avg
+
+def avgnar(preds_df, p_list, s_list):
+    """
+    Average GNAR models of different orders. (preds_df is the output of compute_avg_preds)
+    """
+    # Number of models across which to average
+    n = len(p_list) * len(s_list)
+    forecast_sum = None
+    # Loop over models
+    for p in p_list:
+        for s in s_list:
+            forecasts = preds_df[f"GNAR({p},{s})"].to_numpy()
+            if forecast_sum is None:
+                forecast_sum = forecasts
+            else:
+                forecast_sum += forecasts
+    # Create output dataframe
+    columns = pd.MultiIndex.from_product([[f"AvGNAR({p_list},{s_list})"], preds_df.columns.levels[1]])
+    output_df = pd.DataFrame(forecast_sum / n, index=preds_df.index, columns=columns)
+    return output_df
 
 def compute_mse_df(inf_preds_df, start=None, end=None):
     """
@@ -101,3 +121,22 @@ def compute_mse_df(inf_preds_df, start=None, end=None):
         true_inf = inflation_rate.shift(-step).loc[dates].dropna()
         mse_df.loc[step] = np.mean((inf_preds_df.loc[true_inf.index, pd.IndexSlice[:, step]].to_numpy() - true_inf.to_numpy()) ** 2, axis=0)
     return mse_df
+
+def compute_mape_df(inf_preds_df, start=None, end=None, eps=1):
+    """
+    Compute the mean absolute percentage error for the inflation rate forecasts. Here eps is the correction applied to the denominator to avoid division by zero.
+    """
+    if start is not None:
+        inf_preds_df = inf_preds_df.loc[start:]
+    if end is not None:
+        inf_preds_df = inf_preds_df.loc[:end]
+    # Construct an empty dataframe to store the mean absolute percentage errors
+    model_names = inf_preds_df.columns.get_level_values(0).unique().to_list()
+    steps = inf_preds_df.columns.get_level_values(1).unique().to_list()
+    mape_df = pd.DataFrame(index=steps, columns=model_names, dtype=float)
+    dates = inf_preds_df.index
+    # Compute the mean absolute percentage errors for each model at each forecast horizon
+    for step in steps:
+        true_inf = inflation_rate.shift(-step).loc[dates].dropna()
+        mape_df.loc[step] = np.mean(np.abs(inf_preds_df.loc[true_inf.index, pd.IndexSlice[:, step]].to_numpy() - true_inf.to_numpy()) / (np.abs(true_inf.to_numpy()) + eps) * 100, axis=0)
+    return mape_df
