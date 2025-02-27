@@ -80,4 +80,4 @@ Forecasts are computed by averaging the predictions of the 5 best networks each 
 The orders across which we average are contained within { } for each model.  
 We compare our forecasts to those of an average of AR processes.  
 
-![RaGNAR Forecast](figures/forecasts.pdf)
+![RaGNAR Forecast](figures/forecasts.png)
