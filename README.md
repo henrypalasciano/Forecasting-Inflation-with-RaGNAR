@@ -1,4 +1,4 @@
-# RaGNAR: Forecasting UK Consumer Price Inflation with Random Generalised Network Autoregressive Processes
+# Forecasting UK Consumer Price Inflation with RaGNAR: Random Generalised Network Autoregressive Processes
 
 This repository contains the Python code used in our article:
 
