@@ -1,5 +1,3 @@
-# Forecasting-Inflation-with-GNAR
+# Forecasting UK Consumer Price Inflation with RaGNAR: Random Generalised Network Autoregressive Processes
 
-Python code used in the "Forecasting Inflation Using Generalised Network Autoregressive Processes" article.
-
-In this work we forecast inflation using an ensemble of Generalised Network Autoregressive (GNAR) processes on a set of random networks generated according to the Erdos-Renyi-Gilbert model. The nodes in the underlying graph consist of the Consumer Price Index (CPI) along with its sub-components (divisions, classes, groups).
+We forecast inflation using RaGNAR - an ensemble of Generalised Network Autoregressive (GNAR) processes fit to a set of random networks generated according to the Erdos-Renyi-Gilbert model. The nodes in the underlying graphs consist of the Consumer Price Index (CPI) along with its sub-components (divisions, classes, groups).
