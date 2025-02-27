@@ -30,13 +30,17 @@ For convenience, the script **`download_data.py`** (located in the **`methodolog
 
 ---
 
-## Repository Structure
+## Repository Structure  
+
+The repository is organized as follows:  
+
+```plaintext
 📂 Forecasting-Inflation-with-RaGNAR/
  ┣ 📂 methodology/     # Data, RaGNAR code, and example usage
- ┣ 📂 figures/         # Figures for forecasts and results
- ┣ 📜 README.md        # This file
- ┣ 📜 requirements.txt # Dependencies
-
+ ┣ 📂 figures/         # Example forecasts
+ ┣ 📜 README.md        # Project documentation
+ ┣ 📜 requirements.txt # Required dependencies
+```
 ---
 
 ## Example Usage
