@@ -2,13 +2,16 @@
 
 This repository contains the Python code used in our article:
 
-**"Forecasting UK Consumer Price Inflation with RaGNAR: Random Generalised Network Autoregressive Processes"**  
+📄 **"Forecasting UK Consumer Price Inflation with RaGNAR: Random Generalised Network Autoregressive Processes"**  
 *(Submitted to the **International Journal of Forecasting**).*
 
 ---
 
 ## Overview  
 We forecast **monthly inflation in the United Kingdom** using **RaGNAR**, an ensemble of **Generalised Network Autoregressive (GNAR) processes** fitted to a set of **random networks** generated according to the **Erdős–Rényi–Gilbert model**. Nodes represent the **Consumer Price Index (CPI)** and its sub-components (*divisions, classes, and groups*).
+
+RaGNAR uses the **GNAR-Python** repository, an implementation of **GNAR models** in python:  
+🔗 **[GNAR-Python Repository](https://github.com/henrypalasciano/GNAR-Python.git)**  
 
 ---
 
