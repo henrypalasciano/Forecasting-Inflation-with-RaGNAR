@@ -29,7 +29,7 @@ For convenience, the script **`download_data.py`** (located in the **`methodolog
 
 ## Repository Structure
 📂 Forecasting-Inflation-with-RaGNAR/
- ┣ 📂 methodology/     # Data processing, RaGNAR code, and example usage
+ ┣ 📂 methodology/     # Data, RaGNAR code, and example usage
  ┣ 📂 figures/         # Figures for forecasts and results
  ┣ 📜 README.md        # This file
  ┣ 📜 requirements.txt # Dependencies
@@ -73,3 +73,11 @@ glo_rmse = compute_rmse_df(glo_avg)
 
 ---
 
+## Forecasting Results  
+
+Below is an example of our inflation forecast obtained from a single run of RaGNAR.  
+Forecasts are computed by averaging the predictions of the 5 best networks each month and GNAR models of different orders.   
+The orders across which we average are contained within { } for each model.  
+We compare our forecasts to those of an average of AR processes.  
+
+![RaGNAR Forecast](figures/forecasts.pdf)
