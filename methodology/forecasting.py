@@ -103,7 +103,7 @@ def avgnar(preds_df, p_list, s_list):
     output_df = pd.DataFrame(forecast_sum / n, index=preds_df.index, columns=columns)
     return output_df
 
-def compute_mse_df(inf_preds_df, start=None, end=None):
+def compute_rmse_df(inf_preds_df, start=None, end=None):
     """
     Compute the mean squared errors for the inflation rate forecasts.
     """
@@ -114,13 +114,13 @@ def compute_mse_df(inf_preds_df, start=None, end=None):
     # Construct an empty dataframe to store the mean squared errors
     model_names = inf_preds_df.columns.get_level_values(0).unique().to_list()
     steps = inf_preds_df.columns.get_level_values(1).unique().to_list()
-    mse_df = pd.DataFrame(index=steps, columns=model_names, dtype=float)
+    rmse_df = pd.DataFrame(index=steps, columns=model_names, dtype=float)
     dates = inf_preds_df.index
     # Compute the mean squared errors for each model at each forecast horizon
     for step in steps:
         true_inf = inflation_rate.shift(-step).loc[dates].dropna()
-        mse_df.loc[step] = np.mean((inf_preds_df.loc[true_inf.index, pd.IndexSlice[:, step]].to_numpy() - true_inf.to_numpy()) ** 2, axis=0)
-    return mse_df
+        rmse_df.loc[step] = np.mean((inf_preds_df.loc[true_inf.index, pd.IndexSlice[:, step]].to_numpy() - true_inf.to_numpy()) ** 2, axis=0) ** 0.5
+    return rmse_df
 
 def compute_mape_df(inf_preds_df, start=None, end=None, eps=1):
     """
