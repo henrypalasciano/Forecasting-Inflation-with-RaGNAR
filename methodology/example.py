@@ -52,3 +52,4 @@ loc_rmse = compute_rmse_df(loc_avg_5)
 glo_avgnar = avgnar(glo_avg_5, [1,13,25], [1])
 std_avgnar = avgnar(std_avg_5, [1,13,25], [1])
 loc_avgnar = avgnar(loc_avg_5, [1,13,25], [1])
+# %%
