@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
+import os
 
 from gnar.gnar import GNAR
-from ranking import get_n_smallest
 
-cpi_index = pd.read_csv("data/cpi_monthly_data.csv", index_col=0)[["00"]]
+data_path = os.path.join(os.path.dirname(__file__), "data", "cpi_monthly_data.csv")
+
+cpi_index = pd.read_csv(data_path, index_col=0)[["00"]]
 inflation_rate = cpi_index.pct_change(12).dropna(how="all") * 100
 inflation_rate.columns = ["Inflation Rate"]
 inflation_rate.index = pd.to_datetime(inflation_rate.index)
@@ -72,6 +74,18 @@ def GNAR_preds(best_models, adj_mats, p, s, train, test, model_type, h, n_best):
         G = GNAR(A=adj_mats[model], p=p, s=np.array([s] * p), ts=train, model_type=model_type)
         inf_preds.append(G.predict(test, h)["00"].to_numpy().reshape(t, h))
     return np.hstack(inf_preds), test.index[p-1:]
+
+def get_n_smallest(df, n):
+    """
+    Get the indices of the n smallest rmses for each date and model.
+    """
+    # Create a DataFrame to hold the indices of the smallest entries
+    smallest_indices = pd.DataFrame(index=np.arange(n), columns=df.columns, dtype=int)
+    # Get the smallest entries and their indices for each column
+    for col in df.columns:
+        smallest_indices[col] = df[col].nsmallest(n).index
+    smallest_indices = smallest_indices.sort_values(by=list(df.columns))
+    return smallest_indices.sort_index()
 
 def compute_avg_preds(inf_preds_df, n_best):
     """

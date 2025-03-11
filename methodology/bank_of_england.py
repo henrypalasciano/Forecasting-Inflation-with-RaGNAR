@@ -1,13 +1,16 @@
 import pandas as pd
 import numpy as np
+import os
 
 # Load the Bank of England forecasts
-bank_of_england = pd.read_csv("data/BoE_forecasts.csv", index_col=0)
+data_path = os.path.join(os.path.dirname(__file__), "data", "BoE_forecasts.csv")
+bank_of_england = pd.read_csv(data_path, index_col=0)
 bank_of_england.index = pd.to_datetime(bank_of_england.index)
 bank_of_england.columns = bank_of_england.columns.astype(int)
 
 # Load the monthly CPI data and calculate the inflation rate
-cpi_index_data = pd.read_csv("data/cpi_monthly_data.csv", index_col=0)
+data_path = os.path.join(os.path.dirname(__file__), "data", "cpi_monthly_data.csv")
+cpi_index_data = pd.read_csv(data_path, index_col=0)
 cpi_index = cpi_index_data[["00"]]
 inflation_rate = cpi_index.pct_change(12).dropna(how="all") * 100
 inflation_rate.columns = ["Inflation Rate"]
