@@ -36,7 +36,7 @@ def rolling_ar_forecast(df, p, n, h, start, end):
     
     # Convert forecasts into DataFrame
     columns = pd.MultiIndex.from_product([[f"AR({p})"], range(1, h + 1)])
-    forecast_df = pd.DataFrame(forecasts, index=date_range, columns=columns)
+    forecast_df = pd.DataFrame(forecasts, index=date_range, columns=columns, dtype=float)
     
     return forecast_df
 
@@ -76,6 +76,6 @@ def rolling_bic_ar_forecast(df, n, h, start, end):
     
     # Convert forecasts into DataFrame
     columns = pd.MultiIndex.from_product([["AR(p)"], range(1, h + 1)])
-    forecast_df = pd.DataFrame(forecasts, index=date_range, columns=columns)
+    forecast_df = pd.DataFrame(forecasts, index=date_range, columns=columns, dtype=float)
     
     return forecast_df, bic_p
