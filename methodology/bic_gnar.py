@@ -1,42 +1,47 @@
 import numpy as np
 import pandas as pd
 
-
-def bic_gnar(rmse_df, n_val):
+def select_bic_model_order(rmse_df, n_val, n=2500):
+    """
+    Select the model with the lowest BIC for each forecast date, averaged across the n best networks each month.
+    """
+    # Get models and intialize BIC dataframe
     models = rmse_df.columns.levels[0]
-    bic_df = np.log(rmse_df.copy() ** 2)
+    bic_df = np.log(get_n_smallest_vals(rmse_df, n).copy() ** 2)
     for model in models:
-        k = int(model[-4]) * int(model[-2]) + 1
+        # Compute the number of parameters for each model
+        p = int(model[model.find('(') + 1 : model.find(',')])
+        s = int(model[model.find(',') + 1 : model.find(')')])
+        k = p * (s + 1)
+        # Compute BIC
         bic_df[model] += k * np.log(n_val) / n_val
-    bic_df = bic_df.stack(level=0).groupby(level=1).mean()
-    return bic_df.loc[models]
+    # Stack and average BIC values (future_stack=True is used to avoid a warning)
+    bic_df = bic_df.stack(level=0, future_stack=True).groupby(level=1).mean()
+    model_df = bic_df.idxmin().to_frame()
+    model_df.columns = ["Model"]
+    return model_df
 
-def bic_gnar_forecasts(forecast_df, models, s):
-    columns = pd.MultiIndex.from_product([[f"GNAR(p,{s})"], range(1, 13)])
-    gnar_bic_forecast = pd.DataFrame(index=models.index, columns=columns)
-    for date in models.index:
-        gnar_bic_forecast.loc[date] = forecast_df.loc[date, models.loc[date, "Model"]].to_numpy().reshape(-1)
-    return gnar_bic_forecast
+def get_n_smallest_vals(df, n):
+    """
+    Get the n smallest values in each column of a DataFrame.
+    """
+    # Create a DataFrame to hold the indices of the smallest entries
+    smallest = pd.DataFrame(index=np.arange(n), columns=df.columns, dtype=int)
+    # Get the smallest entries and their indices for each column
+    for col in df.columns:
+        smallest[col] = df[col].nsmallest(n).to_numpy()
+    smallest = smallest.sort_values(by=list(df.columns))
+    return smallest.sort_index()
 
-def get_model_type(bic_df):
-    models = bic_df.idxmin().to_frame()
-    models.columns = ["Model"]
-    return models
-
-def extract_order(df):
-    def extract_number(s):
-        start = s.find('(') + 1
-        end = s.find(',')
-        return int(s[start:end])
-    
-    df = df["Model"].apply(extract_number).copy()
-    return df
-
-def extract_neighbour_stage(df):
-    def extract_number(s):
-        start = s.find(',') + 1
-        end = s.find(')')
-        return int(s[start:end])
-    
-    df = df["Model"].apply(extract_number).copy()
-    return df
+def bic_forecasts(preds_df, model_df, name):
+    """
+    Select the forecasts from the best model according to the BIC for each forecast date.
+    """
+    # Create dataframe to hold the BIC forecasts
+    columns = pd.MultiIndex.from_product([[name], range(1, 13)])
+    dates = preds_df.index
+    bic_preds = pd.DataFrame(index=dates, columns=columns)
+    # Get the forecasts from the best model according to the BIC
+    for date in dates:
+        bic_preds.loc[date] = preds_df.loc[date, model_df.loc[date, "Model"]].to_numpy().reshape(-1)
+    return bic_preds
