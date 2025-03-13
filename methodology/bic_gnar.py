@@ -6,7 +6,7 @@ def select_bic_model_order(rmse_df, n_val, n=2500):
     Select the model with the lowest BIC for each forecast date, averaged across the n best networks each month.
     """
     # Get models and intialize BIC dataframe
-    models = rmse_df.columns.levels[0]
+    models = np.unique(rmse_df.columns.get_level_values(0))
     bic_df = np.log(get_n_smallest_vals(rmse_df, n).copy() ** 2)
     for model in models:
         # Compute the number of parameters for each model
@@ -40,7 +40,7 @@ def bic_forecasts(preds_df, model_df, name):
     # Create dataframe to hold the BIC forecasts
     columns = pd.MultiIndex.from_product([[name], range(1, 13)])
     dates = preds_df.index
-    bic_preds = pd.DataFrame(index=dates, columns=columns)
+    bic_preds = pd.DataFrame(index=dates, columns=columns, dtype=float)
     # Get the forecasts from the best model according to the BIC
     for date in dates:
         bic_preds.loc[date] = preds_df.loc[date, model_df.loc[date, "Model"]].to_numpy().reshape(-1)

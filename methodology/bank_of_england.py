@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from matplotlib.ticker import FuncFormatter
 
 # Load the Bank of England forecasts
 data_path = os.path.join(os.path.dirname(__file__), "data", "BoE_forecasts.csv")
@@ -29,8 +30,8 @@ def rmse_vs_bank(preds_df):
     """
     # Create a DataFrame to store the RMSE values
     models = preds_df.columns.levels[0].to_list()
-    cols = ["BoE"] + models
-    rmse_df = pd.DataFrame(columns=cols, index=np.arange(1, 7))
+    cols = ["Bank of England"] + models
+    rmse_df = pd.DataFrame(columns=cols, index=np.arange(1, 7), dtype=float)
 
     # Last date from which the true one-step ahead inflation rates are available
     boe = bank_of_england.loc[:"2024-11-01"]
@@ -44,7 +45,7 @@ def rmse_vs_bank(preds_df):
         preds = preds_df.loc[dates, pd.IndexSlice[:, i]].to_numpy()
         inf = inf_df.to_numpy()
         # Compute the RMSE for each model
-        rmse_df.loc[i, "BoE"] = np.sqrt(np.mean((boe_i - inf) ** 2))
+        rmse_df.loc[i, "Bank of England"] = np.sqrt(np.mean((boe_i - inf) ** 2))
         rmse_df.loc[i, models] = np.sqrt(np.mean((preds - inf) ** 2, axis=0))
     return rmse_df 
 
@@ -62,8 +63,8 @@ def mape_vs_bank(preds_df, eps=1):
     """
     # Create a DataFrame to store the MAPE values
     models = preds_df.columns.levels[0].to_list()
-    cols = ["BoE"] + models
-    mape_df = pd.DataFrame(columns=cols, index=np.arange(1, 7))
+    cols = ["Bank of England"] + models
+    mape_df = pd.DataFrame(columns=cols, index=np.arange(1, 7), dtype=float)
 
     # Last date from which the true one-step ahead inflation rates are available
     boe = bank_of_england.loc[:"2024-11-01"]
@@ -77,7 +78,7 @@ def mape_vs_bank(preds_df, eps=1):
         preds = preds_df.loc[dates, pd.IndexSlice[:, i]].to_numpy()
         inf = inf_df.to_numpy()
         # Compute the MAPE for each model
-        mape_df.loc[i, "BoE"] = np.mean(np.abs(boe_i - inf) / (np.abs(inf) + eps) * 100)
+        mape_df.loc[i, "Bank of England"] = np.mean(np.abs(boe_i - inf) / (np.abs(inf) + eps) * 100)
         mape_df.loc[i, models] = np.mean(np.abs(preds - inf) / (np.abs(inf) + eps) * 100, axis=0)
     return mape_df 
 
@@ -97,7 +98,7 @@ def bank_scatter(preds_df, models, h, ax=None):
     lines = []
     for model in models:
         # Bank of England forecasts
-        b = boe.loc[:"2024-11-01"][h].dropna()
+        b = bank_of_england.loc[:"2024-11-01"][h].dropna()
         # RaGNAR model forecasts
         g = preds_df.loc[b.index, (model, h)].to_numpy().flatten()
         # True inflation rates
