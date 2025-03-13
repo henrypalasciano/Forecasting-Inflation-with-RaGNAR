@@ -73,7 +73,10 @@ The methodology folder is organised as follows:
  ┣ 📜 scoring.py              # Functions to compute rolling one-step-ahead squared errors at the CPI node  
 ```
 
-The results folder is organised as follows:
+The `results/` folder contains forecasts from a **single run** of the RaGNAR algorithm for **reproducibility**.  
+This run was carried out on a **2020 MacBook Pro with a 2.3 GHz Quad-Core Intel Core i7 processor**.  
+
+The results are organized as follows:
 
 ```plaintext
 📂 results/
@@ -88,6 +91,12 @@ The results folder is organised as follows:
    ┣ 📜 local_preds.csv    # Predictions from the top 5 networks each month using the local model class
    ┣ 📜 standard_preds.csv # Predictions from the top 5 networks each month using the standard model class
 ```
+
+The results presented in the article were computed by **averaging the results of 100 runs of RaGNAR**.  
+To achieve this, the algorithm was executed **in parallel** on the [NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/),  
+which is available to members of the Department of Mathematics at Imperial College London.
+
+
 ---
 
 ## Example Usage
