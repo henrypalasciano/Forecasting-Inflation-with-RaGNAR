@@ -51,26 +51,26 @@ The methodology folder is organised as follows:
 ```plaintext
 📂 methodology/
  ┣ 📂 data/  
-   ┣ 📜 BoE_forecasts.csv   # Bank of England forecasts (rows: dates, columns: horizons).  
-   ┃                        # Data manually formatted from the BoE Monetary Policy Reports:  
-   ┃                        # https://www.bankofengland.co.uk/monetary-policy-report/monetary-policy-report  
-   ┣ 📜 cpi_data.csv        # File downloaded from the ONS Consumer Price Indices Dataset:  
-   ┃                        # https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/consumerpriceindices  
-   ┣ 📜 cpi_dict.json       # Dictionary mapping CPI item series codes to names  
-   ┣ 📜 cpi_monthly_data.csv # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
- ┣ 📜 ar_forecasts.py       # Functions for forecasting AR processes  
- ┣ 📜 bank_of_england.py    # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
- ┣ 📜 bic_gnar.py           # Functions for model selection using BIC and constructing forecasts  
- ┣ 📜 download_data.py      # Functions to download CPI data from ONS, format it, and save processed versions:  
-   ┃                        # - `/data/cpi_data.csv`: Raw CPI data  
-   ┃                        # - `/data/cpi_monthly_data.csv`: Monthly CPI time series  
-   ┃                        # - `/data/cpi_dict.json`: Dictionary mapping CPI series codes to names  
- ┣ 📜 example.py            # Example script demonstrating a full run of RaGNAR  
- ┣ 📜 forecasting.py        # Functions to generate forecasts and compute RMSE and MAPE  
- ┣ 📜 plotting.py           # Functions to visualize forecasts in a grid format  
- ┣ 📜 random_graphs.py      # Functions to generate random graphs and compute neighbor set matrices  
- ┣ 📜 rw_forecasts.py       # Functions for forecasting RW (random walk) processes  
- ┣ 📜 scoring.py   
+   ┣ 📜 BoE_forecasts.csv     # Bank of England forecasts (rows: dates, columns: horizons).  
+   ┃                          # Data manually formatted from the BoE Monetary Policy Reports:  
+   ┃                          # https://www.bankofengland.co.uk/monetary-policy-report/monetary-policy-report  
+   ┣ 📜 cpi_data.csv          # File downloaded from the ONS Consumer Price Indices Dataset:  
+   ┃                          # https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/consumerpriceindices  
+   ┣ 📜 cpi_dict.json         # Dictionary mapping CPI item series codes to names  
+   ┣ 📜 cpi_monthly_data.csv  # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
+ ┣ 📜 ar_forecasts.py         # Functions for forecasting AR processes  
+ ┣ 📜 bank_of_england.py      # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
+ ┣ 📜 bic_gnar.py             # Functions for model selection using BIC and constructing forecasts  
+ ┣ 📜 download_data.py        # Functions to download CPI data from ONS, format it, and save processed versions:  
+   ┃                          # - `/data/cpi_data.csv`: Raw CPI data  
+   ┃                          # - `/data/cpi_monthly_data.csv`: Monthly CPI time series  
+   ┃                          # - `/data/cpi_dict.json`: Dictionary mapping CPI series codes to names  
+ ┣ 📜 example.py              # Example script demonstrating a full run of RaGNAR  
+ ┣ 📜 forecasting.py          # Functions to generate forecasts and compute RMSE and MAPE  
+ ┣ 📜 plotting.py             # Functions to visualize forecasts in a grid format  
+ ┣ 📜 random_graphs.py        # Functions to generate random graphs and compute neighbor set matrices  
+ ┣ 📜 rw_forecasts.py         # Functions for forecasting RW (random walk) processes  
+ ┣ 📜 scoring.py              # Functions to compute rolling one-step-ahead squared errors at the CPI node  
 ```
 
 The results folder is organised as follows:
