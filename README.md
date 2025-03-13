@@ -37,9 +37,29 @@ The repository is organized as follows:
 ```plaintext
 📂 Forecasting-Inflation-with-RaGNAR/
  ┣ 📂 methodology/     # Data, RaGNAR code, and example usage
- ┣ 📂 figures/         # Example forecasts
+ ┣ 📂 figures/         # Some figures
+ ┣ 📂 results/         # Forecasts from various models for reproducibility purposes
  ┣ 📜 README.md        # Project documentation
  ┣ 📜 requirements.txt # Required dependencies
+ ┣ 📜 benchmarks.ipynb # Jupyter notebook used for forecasting with benchmark models
+ ┣ 📜 chronos.ipynb    # Jupyter notebook used for forecasting with Chronos
+ ┣ 📜 ragnar.ipynb     # Jupyter notebook used for forecasting with RaGNAR
+```
+
+The results folder is organised as follows:
+
+```plaintext
+📂 results/
+ ┣ 📂 benchmarks/           # Forecasts from benchmark models
+ ┣ 📂 ragnar/               # Forecasts from RAGNAR
+   ┣ 📂 avgnar/             # Forecasts computed by averaging GNAR processes of different orders
+   ┣ 📂 bic/                # Forecasts computed by selecting the best GNAR model each month according to the BIC
+   ┣ 📂 network_avg/        # Forecasts computed by averaging across different networks
+   ┣ 📜 adj_mats.npy        # A set of 10000 adjacency matrices
+   ┣ 📜 global_preds.csv    # Predictions from the top 5 networks each month using the global model class
+   ┣ 📜 local_preds.csv     # Predictions from the top 5 networks each month using the local model class
+   ┣ 📜 se_df.csv           # One-step ahead squared inflation forecast error for each network in adj_mats.npy each month
+   ┣ 📜 standard_preds.csv  # Predictions from the top 5 networks each month using the standard model class
 ```
 ---
 
