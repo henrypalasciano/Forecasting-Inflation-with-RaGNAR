@@ -93,7 +93,7 @@ The results are organized as follows:
 ```
 
 The results presented in the article were computed by **averaging the results of 100 runs of RaGNAR**.  
-To achieve this, the algorithm was executed **in parallel** on the [NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/),  
+To achieve this, the algorithm was executed **in parallel** on the [Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/),  
 which is available to members of the Department of Mathematics at Imperial College London.
 
 
