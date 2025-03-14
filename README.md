@@ -60,7 +60,7 @@ The methodology folder is organised as follows:
    ┣ 📜 cpi_monthly_data.csv  # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
  ┣ 📜 ar_forecasts.py         # Functions for forecasting AR processes  
  ┣ 📜 average_results.py      # Averages results from 100 RaGNAR runs (computed by parallel_comp.py)  
-┃                             # and writes them to .txt files in the newly created average_results folder.
+ ┃                             # and writes them to .txt files in the newly created average_results folder.
  ┣ 📜 bank_of_england.py      # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
  ┣ 📜 bic_gnar.py             # Functions for model selection using BIC and constructing forecasts  
  ┣ 📜 download_data.py        # Functions to download CPI data from ONS, format it, and save processed versions:  
