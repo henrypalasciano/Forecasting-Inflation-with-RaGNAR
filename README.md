@@ -104,8 +104,7 @@ The results presented in the article were computed by **averaging 100 runs of Ra
 The `parallel_comp.py` script (located in the `methodology` folder) runs RaGNAR **100 times**, saving **RMSEs and MAPEs** for each run in dedicated folders.  
 The `average_results.py` script then processes these stored results, computes their averages and standard deviations, and writes them to **various `.txt` files**.  
 
-For the results in the article, the algorithm was executed **in parallel** on the  
-[Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/) at the Department of Mathematics, Imperial College London.
+For the results in the article, the algorithm was executed **in parallel** on the [Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/) at the Department of Mathematics, Imperial College London.
 
 ---
 
