@@ -59,6 +59,8 @@ The methodology folder is organised as follows:
    ┣ 📜 cpi_dict.json         # Dictionary mapping CPI item series codes to names  
    ┣ 📜 cpi_monthly_data.csv  # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
  ┣ 📜 ar_forecasts.py         # Functions for forecasting AR processes  
+ ┣ 📜 average_results.py      # Averages results from 100 RaGNAR runs (computed by parallel_comp.py)  
+┃                             # and writes them to .txt files in the newly created average_results folder.
  ┣ 📜 bank_of_england.py      # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
  ┣ 📜 bic_gnar.py             # Functions for model selection using BIC and constructing forecasts  
  ┣ 📜 download_data.py        # Functions to download CPI data from ONS, format it, and save processed versions:  
@@ -67,6 +69,7 @@ The methodology folder is organised as follows:
    ┃                          # - `/data/cpi_dict.json`: Dictionary mapping CPI series codes to names  
  ┣ 📜 example.py              # Example script demonstrating a full run of RaGNAR  
  ┣ 📜 forecasting.py          # Functions to generate forecasts and compute RMSE and MAPE  
+ ┣ 📜 parallel_comp.py        # Computes RMSEs across 100 RaGNAR runs and stores them in automatically created folders.
  ┣ 📜 plotting.py             # Functions to visualize forecasts in a grid format  
  ┣ 📜 random_graphs.py        # Functions to generate random graphs and compute neighbor set matrices  
  ┣ 📜 rw_forecasts.py         # Functions for forecasting RW (random walk) processes  
@@ -92,10 +95,17 @@ The results are organized as follows:
    ┣ 📜 standard_preds.csv # Predictions from the top 5 networks each month using the standard model class
 ```
 
-The results presented in the article were computed by **averaging the results of 100 runs of RaGNAR**.  
-To achieve this, the algorithm was executed **in parallel** on the [Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/),  
-which is available to members of the Department of Mathematics at Imperial College London.
+---
 
+## Parallel Computation  
+
+The results presented in the article were computed by **averaging 100 runs of RaGNAR**.  
+
+The `parallel_comp.py` script (located in the `methodology` folder) runs RaGNAR **100 times**, saving **RMSEs and MAPEs** for each run in dedicated folders.  
+The `average_results.py` script then processes these stored results, computes their averages and standard deviations, and writes them to **various `.txt` files**.  
+
+For the results in the article, the algorithm was executed **in parallel** on the  
+[Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/) at the Department of Mathematics, Imperial College London.
 
 ---
 
