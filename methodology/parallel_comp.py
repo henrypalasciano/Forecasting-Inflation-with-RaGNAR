@@ -92,7 +92,7 @@ def parallel_cpi(i: int):
             # Cross-order model averaging
             mavg_df = pd.DataFrame(index=dates, columns=columns, dtype=float)
             for model, param in zip(models, params):
-                mavg_df.loc[:, model] = avgnar(avg_preds_df, param[0], param[1])
+                mavg_df.loc[:, model] = avgnar(avg_preds_df, param[0], param[1]).to_numpy()
             save_forecast_results(ftype, mavg_df, i, j, "mavg")
             # BIC forecasts
             bic_df = pd.concat([bic_forecasts(avg_preds_df, bic_1, "GNAR(p,1)"), bic_forecasts(avg_preds_df, bic_2, "GNAR(p,2)"), 
