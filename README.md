@@ -50,29 +50,30 @@ The methodology folder is organised as follows:
 
 ```plaintext
 📂 methodology/
+┣ 📂 article_figures_and_results     # Scripts for reproducing the figures and tables in the article.
 ┣ 📂 data/  
-┃┣ 📜 BoE_forecasts.csv      # Bank of England forecasts (rows: dates, columns: horizons).  
-┃┃                           # Data manually formatted from the BoE Monetary Policy Reports:  
-┃┃                           # https://www.bankofengland.co.uk/monetary-policy-report/monetary-policy-report  
-┃┣ 📜 cpi_data.csv           # File downloaded from the ONS Consumer Price Indices Dataset:  
-┃┃                           # https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/consumerpriceindices  
-┃┣ 📜 cpi_dict.json          # Dictionary mapping CPI item series codes to names  
-┃┣ 📜 cpi_monthly_data.csv   # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
-┣ 📜 ar_forecasts.py         # Functions for forecasting AR processes  
-┣ 📜 average_results.py      # Averages results from 100 RaGNAR runs (computed by parallel_comp.py) and writes them to .txt files in the newly created average_results folder.
-┣ 📜 bank_of_england.py      # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
-┣ 📜 bic_gnar.py             # Functions for model selection using BIC and constructing forecasts  
-┣ 📜 download_data.py        # Functions to download CPI data from ONS, format it, and save processed versions:  
-┃                            # - `/data/cpi_data.csv`: Raw CPI data  
-┃                            # - `/data/cpi_monthly_data.csv`: Monthly CPI time series  
-┃                            # - `/data/cpi_dict.json`: Dictionary mapping CPI series codes to names  
-┣ 📜 example.py              # Example script demonstrating a full run of RaGNAR  
-┣ 📜 forecasting.py          # Functions to generate forecasts and compute RMSE and MAPE  
-┣ 📜 parallel_comp.py        # Computes RMSEs across 100 RaGNAR runs and stores them in automatically created folders.
-┣ 📜 plotting.py             # Functions to visualize forecasts in a grid format  
-┣ 📜 random_graphs.py        # Functions to generate random graphs and compute neighbor set matrices  
-┣ 📜 rw_forecasts.py         # Functions for forecasting RW (random walk) processes  
-┣ 📜 scoring.py              # Functions to compute rolling one-step-ahead squared errors at the CPI node  
+┃┣ 📜 BoE_forecasts.csv              # Bank of England forecasts (rows: dates, columns: horizons).  
+┃┃                                   # Data manually formatted from the BoE Monetary Policy Reports:  
+┃┃                                   # https://www.bankofengland.co.uk/monetary-policy-report/monetary-policy-report  
+┃┣ 📜 cpi_data.csv                   # File downloaded from the ONS Consumer Price Indices Dataset:  
+┃┃                                   # https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/consumerpriceindices  
+┃┣ 📜 cpi_dict.json                  # Dictionary mapping CPI item series codes to names  
+┃┣ 📜 cpi_monthly_data.csv           # Monthly CPI and disaggregated item series data (rows: dates, columns: series)  
+┣ 📜 ar_forecasts.py                 # Functions for forecasting AR processes  
+┣ 📜 average_results.py              # Averages results from 100 RaGNAR runs (computed by parallel_comp.py) and writes them to .txt files in the newly created average_results folder.
+┣ 📜 bank_of_england.py              # Functions to compute RMSE and MAPE compared with the Bank of England forecasts  
+┣ 📜 bic_gnar.py                     # Functions for model selection using BIC and constructing forecasts  
+┣ 📜 download_data.py                # Functions to download CPI data from ONS, format it, and save processed versions:  
+┃                                    # - `/data/cpi_data.csv`: Raw CPI data  
+┃                                    # - `/data/cpi_monthly_data.csv`: Monthly CPI time series  
+┃                                    # - `/data/cpi_dict.json`: Dictionary mapping CPI series codes to names  
+┣ 📜 example.py                      # Example script demonstrating a full run of RaGNAR  
+┣ 📜 forecasting.py                  # Functions to generate forecasts and compute RMSE and MAPE  
+┣ 📜 parallel_comp.py                # Computes RMSEs across 100 RaGNAR runs and stores them in automatically created folders.
+┣ 📜 plotting.py                     # Functions to visualize forecasts in a grid format  
+┣ 📜 random_graphs.py                # Functions to generate random graphs and compute neighbor set matrices  
+┣ 📜 rw_forecasts.py                 # Functions for forecasting RW (random walk) processes  
+┣ 📜 scoring.py                      # Functions to compute rolling one-step-ahead squared errors at the CPI node  
 ```
 
 The `results/` folder contains forecasts from a **single run** of the RaGNAR algorithm for **reproducibility**.  
@@ -102,6 +103,7 @@ The results presented in the article were computed by **averaging 100 runs of Ra
 
 The `parallel_comp.py` script (located in the `methodology` folder) runs RaGNAR **100 times**, saving **RMSEs and MAPEs** for each run in dedicated folders.  
 The `average_results.py` script then processes these stored results, computes their averages and standard deviations, and writes them to **various `.txt` files**.  
+The scripts in the `article_figures_and_tables` folder reproduce the figures and tables from the article. For figures based on a single run, the outputs provided in the `results` folder are used. If you'd like to generate new results using `parallel_comp.py`, you'll need to update the file paths in the relevant scripts accordingly. **Note:** `parallel_comp.py` does **not** save the rolling mean squared error DataFrames or the randomly generated adjacency matrices by default, as these occupy significant memory. Figures 3 and 8 require this data. To reproduce them using new runs (rather than the data in the `results` folder), you’ll need to modify `parallel_comp.py` to save the necessary outputs.  
 
 For the results in the article, the algorithm was executed **in parallel** on the [Maths NextGen Compute Cluster](https://sysnews.ma.ic.ac.uk/NextGen/) at the Department of Mathematics, Imperial College London.
 
