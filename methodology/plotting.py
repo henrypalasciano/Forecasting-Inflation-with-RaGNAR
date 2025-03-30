@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.patches as mpatches
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
+import os
 sns.set_style("white")
 
 data_path = os.path.join(os.path.dirname(__file__), "data", "cpi_monthly_data.csv")
