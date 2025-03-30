@@ -77,7 +77,7 @@ The methodology folder is organised as follows:
 ```
 
 The `results/` folder contains forecasts from a **single run** of the RaGNAR algorithm for **reproducibility**.  
-This run was carried out on a **2020 MacBook Pro with a 2.3 GHz Quad-Core Intel Core i7 processor**.  
+This run was carried out on a **2020 MacBook Pro with a 2.3 GHz Quad-Core Intel Core i7 processor**. These were run using the `ragnar.ipynb`, `benchmark.ipynb` and `chronos.ipynb` Jupyter notebooks. For results from averaging multiple runs of RaGNAR see the Parallel Computation section below.  
 
 The results are organized as follows:
 
