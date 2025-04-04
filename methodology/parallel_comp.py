@@ -58,21 +58,28 @@ def parallel_cpi(i: int):
 
     p_list = [1, 2, 12, 13, 25]
 
-    # Generate 10000 random networks and compute the neighbour_set matrices
-    adj_mats = generate_erdos_graphs(10000, 112, 0.03)
-    ns_mats = compute_ns_mats(adj_mats, 2)
+    success = False
+    while not success:
+        try:
+            # Generate 10000 random networks and compute the neighbour_set matrices
+            adj_mats = generate_erdos_graphs(10000, 112, 0.03)
+            ns_mats = compute_ns_mats(adj_mats, 2)
 
-    # Compute the rolling mean squared errors
-    mse_df = cpi_rolling_se(cpi_data_pct_12, ns_mats, p_list, 2, start_date="2007-07-01", end_date="2024-11-01", n_train=150, n_shift=1)
+            # Compute the rolling squared errors
+            mse_df = cpi_rolling_se(cpi_data_pct_12, ns_mats, p_list, 2, start_date="2007-07-01", end_date="2024-11-01", n_train=150, n_shift=1)
 
-    # Compute the rolling mean squared errors
-    mse_df = cpi_rolling_mse(mse_df, 30)
+            # Compute the rolling mean squared errors
+            mse_df = cpi_rolling_mse(mse_df, 30)
 
-    # Forecast using different models
-    forecast_types = ["global", "standard", "local"]
-    forecasts = {ftype: forecast_networks(mse_df, cpi_data_pct_12, adj_mats, p_list, 2, model_type=ftype, 
-                                          n_train=150, n_test=1, start_date="2009-12-01", end_date="2024-12-01", h=12, n_best=5)
-                 for ftype in forecast_types}
+            # Forecast using different models
+            forecast_types = ["global", "standard", "local"]
+            forecasts = {ftype: forecast_networks(mse_df, cpi_data_pct_12, adj_mats, p_list, 2, model_type=ftype, 
+                                                n_train=150, n_test=1, start_date="2009-12-01", end_date="2024-12-01", h=12, n_best=5)
+                        for ftype in forecast_types}
+            success = True
+        except Exception as e:
+            logging.error(f"Error in {i}-th run: {e}. Retrying...")
+
     # Save forecasts
     for ftype, df in forecasts.items():
         df.to_csv(f"inflation_preds/preds_df_{ftype}_{i}.csv")
