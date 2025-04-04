@@ -205,22 +205,28 @@ def parallel_dir(i):
 
     p_list = [1, 2]
 
-    # Generate 10000 random networks and compute the neighbour_set matrices
-    adj_mats = generate_erdos_graphs(10000, 112, 0.03)
-    ns_mats = compute_ns_mats(adj_mats, 1)
+    success = False
+    while not success:
+        try:
+            # Generate 10000 random networks and compute the neighbour_set matrices
+            adj_mats = generate_erdos_graphs(10000, 112, 0.03)
+            ns_mats = compute_ns_mats(adj_mats, 1)
 
-    # Compute the rolling squared errors
-    mse_df = all_node_rolling_se(cpi_data_pct_12, ns_mats, p_list=p_list, s_max=1, start_date="2007-07-01", end_date="2024-11-01", n_train=150, n_shift=1)
-    # Compute the rolling mean squared errors
-    mse_df = all_node_rolling_mse(mse_df, 30)
+            # Compute the rolling squared errors
+            mse_df = all_node_rolling_se(cpi_data_pct_12, ns_mats, p_list=p_list, s_max=1, start_date="2007-07-01", end_date="2024-11-01", n_train=150, n_shift=1)
+            # Compute the rolling mean squared errors
+            mse_df = all_node_rolling_mse(mse_df, 30)
 
-    adj_mat_dict = construct_best_networks(adj_mats, mse_df)
+            adj_mat_dict = construct_best_networks(adj_mats, mse_df)
 
-    # Forecast using different models
-    forecast_types = ["global", "standard", "local"]
-    forecasts = {ftype: forecast_dir_networks(cpi_data_pct_12, adj_mat_dict, p_list, model_type=ftype, n_train=150,
-                                              n_test=1, start_date="2009-12-01", end_date="2024-12-01", h=12)
-                 for ftype in forecast_types}
+            # Forecast using different models
+            forecast_types = ["global", "standard", "local"]
+            forecasts = {ftype: forecast_dir_networks(cpi_data_pct_12, adj_mat_dict, p_list, model_type=ftype, n_train=150,
+                                                    n_test=1, start_date="2009-12-01", end_date="2024-12-01", h=12)
+                        for ftype in forecast_types}
+            success = True
+        except Exception as e:
+            print(f"Error in {i}-th run: {e}. Retrying...")
 
     for ftype in forecast_types:
         df = forecasts[ftype]
