@@ -29,7 +29,7 @@ for model in ["global", "standard", "local"]:
     rmse_0 = pd.read_csv(f"../rmses/rmse_df_{model}_{ftype}_{n}_0.csv", index_col=0)
     rmse_avg_df = rmse_0.copy()
     rmse_avg_df_sq = rmse_0 ** 2
-    for i in range(1, ):
+    for i in range(1, 100):
         rmse_i = pd.read_csv(f"../rmses/rmse_df_{model}_{ftype}_{n}_{i}.csv", index_col=0)
         rmse_avg_df += rmse_i
         rmse_avg_df_sq += rmse_i ** 2
